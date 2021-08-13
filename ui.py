@@ -7,7 +7,6 @@ THEME_COLOR = "#375362"
 class QuizInterface:
     def __init__(self, quiz_brain: QuizBrain):
         self.quiz = quiz_brain
-        self.cont = self.continue_game
         self.window = Tk()
         self.window.title("Quizzler")
         self.window.minsize(width=350, height=530)
@@ -51,12 +50,12 @@ class QuizInterface:
         self.give_feedback(self.quiz.check_answer("false"))
 
     def give_feedback(self, is_right):
-        self.window.after_cancel(self.cont)
+        self.window.after_cancel(self.continue_game)
         if is_right:
             self.canvas.config(bg="green")
         else:
             self.canvas.config(bg="red")
-        self.window.after(1000, self.cont)
+        self.window.after(1000, self.continue_game)
 
     def continue_game(self):
         self.canvas.config(bg="white")
@@ -66,3 +65,5 @@ class QuizInterface:
             self.score_label.config(text=f"Quiz Complete")
             self.canvas.itemconfig(self.question_text, text=f"Your final score is "
                                                             f"{self.quiz.score}/{self.quiz.question_number}")
+            self.true_button.config(state="disabled")
+            self.false_button.config(state="disabled")
